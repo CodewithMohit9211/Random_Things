@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Living Forest Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-ring"></div>
+    <p>Waking the forest...</p>
+  </div>
+
+  <div class="custom-cursor" id="customCursor"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <img src="https://media.gettyimages.com/id/2149741791/vector/charity-and-donation-line-icon-awareness-volunteer-donor-organ-donation-give-love.jpg?" alt="Logo" class="custom-icon" />
+      <div>
+        <p>Mohit Rain</p>
+        <small>Nature Experience Designer</small>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#journey">Journey</a>
+      <a href="#experience">Experience</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="top-controls">
+      <button class="control-btn" id="weatherToggle" aria-label="Toggle weather mode">Rain</button>
+      <button class="control-btn" id="themeToggle" aria-label="Toggle day night mode">Night</button>
+      <button class="control-btn" id="soundToggle" aria-label="Toggle ambient sound">Sound</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section" id="hero">
+      <div class="hero-sky"></div>
+      <div class="hero-clouds"></div>
+      <div class="hero-mountains"></div>
+      <div class="hero-forest"></div>
+      <div class="hero-fog"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-text">
+        <p>Living design as a forest story</p>
+        <h1>Hi, I’m <span>Mohit</span>,</h1>
+        <h2>a student who builds immersive nature experiences for the web.</h2>
+        <div class="hero-stats">
+          <div>
+            <strong id="clockDisplay">00:00</strong>
+            <span>Ambient time</span>
+          </div>
+          <div>
+            <strong id="weatherDisplay">Calm</strong>
+            <span>Atmosphere</span>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <a href="#projects" class="primary-btn">Enter the forest</a>
+          <button class="ghost-btn" id="secretTrigger">Find the hidden path</button>
+        </div>
+      </div>
+      <div class="hero-particles" id="particleCanvas"></div>
+    </section>
+
+    <section class="section-panel" id="about">
+      <div class="section-intro">
+        <span>About the journey</span>
+        <h2>Nature-inspired storytelling meets premium digital craft.</h2>
+      </div>
+      <div class="grid-2">
+        <article class="glass-card fade-up">
+          <h3>My Design Philosophy</h3>
+          <p>For me, design isn’t just about code or visuals — it’s about creating an experience that feels alive. I want every click, scroll, and hover to feel natural, like you’re exploring something that grows and responds with you.</p>
+          <ul>
+          <li>Smooth, organic motion that feels effortless</li>
+          <li>Warm gradients, soft light, and glass-like textures</li>
+          <li>Interactive stories that connect with people</li>
+          </ul>
+        </article>
+        <article class="glass-card fade-up delay-1">
+          <h3>What I Love Building</h3>
+          <p>I enjoy working on projects that mix creativity with technology — from interactive landing pages to immersive UI systems. My focus is on making digital spaces that feel personal, engaging, and memorable.</p>
+          <div class="mini-stats">
+          <div><h1>FYCS</h1><span>B.Sc. Computer Science, Bhavna Trust Jr. College</span></div>
+          <div><strong>3+</strong><span>Projects built with HTML, CSS & JS</span></div>
+          <div><h1>Skills</h1><span>Responsive design, animations, storytelling interfaces</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-panel section-alt" id="skills">
+  <div class="section-intro">
+    <span>Skills in Motion</span>
+    <h2>My technical journey, growing like a living ecosystem.</h2>
+    <p>As a first-year Computer Science student, I’m shaping my skills step by step — blending creativity, code, and motion into something that feels alive.</p>
+  </div>
+
+  <div class="skill-grid">
+    <article class="skill-card fade-up">
+      <h4>Interactive HTML</h4>
+      <div class="progress-line"><span style="--progress:92%"></span></div>
+      <p>Building clear, semantic structures that tell a story.</p>
+    </article>
+    <article class="skill-card fade-up delay-1">
+      <h4>Responsive CSS</h4>
+      <div class="progress-line"><span style="--progress:95%"></span></div>
+      <p>Designing with gradients, glassmorphism, and smooth transitions.</p>
+    </article>
+    <article class="skill-card fade-up delay-2">
+      <h4>Dynamic JavaScript</h4>
+      <div class="progress-line"><span style="--progress:88%"></span></div>
+      <p>Adding life with particles, scroll effects, and interactive systems.</p>
+    </article>
+    <article class="skill-card fade-up delay-3">
+      <h4>Motion Design</h4>
+      <div class="progress-line"><span style="--progress:90%"></span></div>
+      <p>Crafting natural rhythms, smooth transitions, and layered reveals.</p>
+    </article>
+  </div>
+</section>
+
+
+    <section class="section-panel" id="projects">
+      <div class="section-intro">
+        <span>Project ecosystem</span>
+        <h2>Showcasing immersive experiments, visual narratives, and digital habitats.</h2>
+      </div>
+      <div class="project-controls fade-up">
+        <button class="pill active" data-filter="all">All</button>
+        <button class="pill" data-filter="story">Story</button>
+        <button class="pill" data-filter="motion">Motion</button>
+        <button class="pill" data-filter="interface">Interface</button>
+      </div>
+      <div class="projects-grid">
+        <article class="project-card fade-up" data-category="story">
+          <div class="project-tag">Story</div>
+          <h3>Forest Compositions</h3>
+          <p>A cinematic landing page where the forest atmosphere breathes with scroll and sound.</p>
+          <a href="#" class="project-link">Explore</a>
+        </article>
+        <article class="project-card fade-up delay-1" data-category="motion">
+          <div class="project-tag">Motion</div>
+          <h3>River Pulse</h3>
+          <p>Water ripple interactions, kinetic glow, and flowing geometry that feels alive.</p>
+          <a href="#" class="project-link">Explore</a>
+        </article>
+        <article class="project-card fade-up delay-2" data-category="interface">
+          <div class="project-tag">Interface</div>
+          <h3>Weather Harmony</h3>
+          <p>Dynamic weather states, day/night transitions, and nature-driven controls.</p>
+          <a href="#" class="project-link">Explore</a>
+        </article>
+        <article class="project-card fade-up delay-3" data-category="story">
+          <div class="project-tag">Story</div>
+          <h3>Energy Grove</h3>
+          <p>Interactive energy waves, floating particles, and cinematic glow overlays.</p>
+          <a href="#" class="project-link">Explore</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-panel section-alt" id="journey">
+      <div class="section-intro">
+        <span>Journey timeline</span>
+        <h2>Milestones recorded as a mystical forest trail.</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item fade-up">
+          <span>2024</span>
+          <h4>Early exploration</h4>
+          <p>Learning HTML/CSS foundations and discovering how motion can shape mood.</p>
+        </div>
+        <div class="timeline-item fade-up delay-1">
+          <span>2025</span>
+          <h4>Interactive experiments</h4>
+          <p>Built atmospheric interfaces and particle worlds with pure JavaScript.</p>
+        </div>
+        <div class="timeline-item fade-up delay-2">
+          <span>2026</span>
+          <h4>Nature ecosystems</h4>
+          <p>Designing immersive stories with layered environmental depth and cinematic texture.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-panel experience-panel" id="experience">
+      <div class="section-intro">
+        <span>Interactive nature</span>
+        <h2>Explore the living ecosystem and shape the environment with movement.</h2>
+      </div>
+      <div class="experience-grid">
+        <div class="experience-copy fade-up">
+          <p>Move your cursor over the forest, toggle the weather, and feel the interface respond with energy waves, glowing drift, and misty depth.</p>
+          <ul>
+            <li>Mouse-reactive parallax</li>
+            <li>Canvas particles and firefly glow</li>
+            <li>Day/night and rain atmosphere</li>
+          </ul>
+        </div>
+        <div class="experience-view fade-up delay-1">
+          <div class="wave-panel">
+            <div class="wave band-1"></div>
+            <div class="wave band-2"></div>
+            <div class="wave band-3"></div>
+          </div>
+          <div class="experience-overlay">Move through the mist</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-panel" id="gallery">
+      <div class="section-intro">
+        <span>Visual gallery</span>
+        <h2>Artful snapshots of a digital forest and floating atmospheres.</h2>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item fade-up"></div>
+        <div class="gallery-item fade-up delay-1"></div>
+        <div class="gallery-item fade-up delay-2"></div>
+        <div class="gallery-item fade-up delay-3"></div>
+      </div>
+    </section>
+
+    <section class="section-panel section-alt" id="contact">
+      <div class="section-intro">
+        <span>Contact</span>
+        <h2>Let’s build a living environment for your next story.</h2>
+      </div>
+      <div class="contact-panel fade-up">
+        <div class="contact-copy">
+          <h3>Ready to create something unforgettable?</h3>
+          <p>Reach out for student collaborations, concept experiences, or immersive interface work.</p>
+          <div class="contact-details">
+            <div><strong>Email</strong><span>mohprajapati143@gmail.com</span></div>
+            <div><strong>Style</strong><span>HTML / CSS / JS only</span></div>
+            <div><strong>Mood</strong><span>Calm, premium, cinematic, organic</span></div>
+          </div>
+        </div>
+        <form class="contact-form" action="#" method="POST">
+          <label><span>Name</span><input type="text" placeholder="Your name" required /></label>
+          <label><span>Email</span><input type="email" placeholder="Your email" required /></label>
+          <label><span>Message</span><textarea placeholder="Share your vision" rows="5" required></textarea></label>
+          <button type="submit" class="primary-btn">Send message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <p>© 2026 Kaia Rain • Living Forest Portfolio</p>
+      <p>Built with pure HTML, CSS, and JavaScript — no libraries, only atmosphere.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
