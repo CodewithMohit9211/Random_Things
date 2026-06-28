@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step-by-Step DFA Minimization Simulator</title>
+    <style>
+        :root {
+            --primary: #2b579a;
+            --primary-hover: #1e3d6b;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text: #212529;
+            --border: #dee2e6;
+            --accent: #e8f0fe;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: var(--surface);
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        h1, h2, h3 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .helper-text {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+        }
+
+        table, th, td {
+            border: 1px solid var(--border);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .section {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .step-card {
+            background: var(--accent);
+            border-left: 5px solid var(--primary);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .state-block {
+            display: inline-block;
+            background: #4772b2;
+            color: white;
+            padding: 6px 12px;
+            margin: 4px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .signature-list {
+            margin-top: 10px;
+            font-family: monospace;
+            background: #ffffff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        /* Partition Tree Visual styles */
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #fafafa;
+            padding: 15px;
+            border: 1px dashed #bbb;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .tree-level {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .tree-level::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            width: 80%;
+            height: 2px;
+            background: #ccc;
+            z-index: 0;
+            display: none; /* simple display fallback */
+        }
+
+        .tree-node {
+            background: #fff;
+            border: 2px solid var(--primary);
+            padding: 8px 15px;
+            margin: 0 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DFA Minimization Simulator (Step-by-Step)</h1>
+    
+    <div class="input-group">
+        <label for="statesInput">States (Comma separated):</label>
+        <input type="text" id="statesInput" value="q0, q1, q2, q3, q4, q5">
+    </div>
+
+    <div class="input-group">
+        <label for="alphabetInput">Alphabet (Comma separated):</label>
+        <input type="text" id="alphabetInput" value="a, b">
+    </div>
+
+    <div class="input-group">
+        <label for="finalStatesInput">Final / Accepting States (Comma separated):</label>
+        <input type="text" id="finalStatesInput" value="q3, q4, q5">
+    </div>
+
+    <button type="button" onclick="generateTransitionTable()">1. Load Transition Table</button>
+
+    <div id="tableContainer" class="section" style="display:none;">
+        <h2>2. Verify Transition Matrix Inputs</h2>
+        <table id="transitionTable"></table>
+        <button type="button" onclick="minimizeDFAStepByStep()">2. Run Step-by-Step Group Minimization</button>
+    </div>
+
+    <div id="stepsSection" class="section" style="display:none;">
+        <h2>3. Partition Optimization Steps</h2>
+        <div id="stepsOutput"></div>
+    </div>
+
+    <div id="resultSection" class="section" style="display:none; background: #f1f3f5;">
+        <h2>4. Simplified Output Schema</h2>
+        <h3>Minimized Final Partitions:</h3>
+        <div id="finalPartitionOutput" style="margin-bottom: 20px;"></div>
+        
+        <h3>Optimized Transition Matrix:</h3>
+        <table id="minimizedTable"></table>
+    </div>
+</div>
+
+<script>
+    let states = [];
+    let alphabet = [];
+    let finalStates = [];
+
+    function parseInput(val) {
+        return val.split(',').map(s => s.trim()).filter(s => s.length > 0);
+    }
+
+    function generateTransitionTable() {
+        states = parseInput(document.getElementById('statesInput').value);
+        alphabet = parseInput(document.getElementById('alphabetInput').value);
+        finalStates = parseInput(document.getElementById('finalStatesInput').value);
+
+        if(states.length === 0 || alphabet.length === 0) {
+            alert("Please input valid configuration values.");
+            return;
+        }
+
+        const table = document.getElementById('transitionTable');
+        table.innerHTML = `<tr><th>Status</th><th>State</th>${alphabet.map(sym => `<th>Input ${sym}</th>`).join('')}</tr>`;
+
+        const defaultTransitions = {
+            'q0': { 'a': 'q1', 'b': 'q2' },
+            'q1': { 'a': 'q3', 'b': 'q4' },
+            'q2': { 'a': 'q3', 'b': 'q5' },
+            'q3': { 'a': 'q3', 'b': 'q1' },
+            'q4': { 'a': 'q4', 'b': 'q5' },
+            'q5': { 'a': 'q5', 'b': 'q4' }
+        };
+
+        states.forEach(state => {
+            const isFinal = finalStates.includes(state);
+            let rowHtml = `<tr>
+                <td><span style="color: ${isFinal ? '#d9534f':'#5cb85c'}; font-weight:bold;">${isFinal ? 'Final' : 'Non-Final'}</span></td>
+                <td><strong>${state}</strong></td>`;
+            alphabet.forEach(symbol => {
+                let defaultVal = (defaultTransitions[state] && defaultTransitions[state][symbol]) ? defaultTransitions[state][symbol] : '';
+                rowHtml += `<td><input type="text" size="4" id="trans_${state}_${symbol}" value="${defaultVal}" style="text-align:center;"></td>`;
+            });
+            rowHtml += `</tr>`;
+            table.innerHTML += rowHtml;
+        });
+
+        document.getElementById('tableContainer').style.display = "block";
+        document.getElementById('stepsSection').style.display = "none";
+        document.getElementById('resultSection').style.display = "none";
+    }
+
+    function minimizeDFAStepByStep() {
+        let transitionMatrix = {};
+        for (let state of states) {
+            transitionMatrix[state] = {};
+            for (let symbol of alphabet) {
+                let val = document.getElementById(`trans_${state}_${symbol}`).value.trim();
+                if (!states.includes(val)) {
+                    alert(`Target state "${val}" is missing from baseline inputs.`);
+                    return;
+                }
+                transitionMatrix[state][symbol] = val;
+            }
+        }
+
+        const stepsOutput = document.getElementById('stepsOutput');
+        stepsOutput.innerHTML = "";
+
+        // P0 Partition Generation
+        let nonFinals = states.filter(s => !finalStates.includes(s));
+        let finals = states.filter(s => finalStates.includes(s));
+
+        let partitions = [];
+        if (nonFinals.length > 0) partitions.push(nonFinals);
+        if (finals.length > 0) partitions.push(finals);
+
+        // Render P0 visual block
+        let treeHtml = `<div class="tree-container">
+            <div class="tree-level"><div class="tree-node" style="border-color:#333;">All States: { ${states.join(', ')} }</div></div>
+            <div class="tree-level">
+                <div class="tree-node">G1 (Non-Final): { ${nonFinals.join(', ')} }</div>
+                <div class="tree-node" style="border-color:#d9534f;">G2 (Final): { ${finals.join(', ')} }</div>
+            </div>
+        </div>`;
+
+        let htmlTrace = `<div class="step-card">
+            <h3>Initial Baseline Structure (P₀)</h3>
+            <p>Isolate standard operational states away from accepting terminal units:</p>
+            ${partitions.map((g, idx) => `<div><strong>Group G${idx+1}:</strong> ${g.map(s => `<span class="state-block">${s}</span>`).join('')}</div>`).join('')}
+            <h4>Visual Tree Map:</h4>
+            ${treeHtml}
+        </div>`;
+        stepsOutput.innerHTML += htmlTrace;
+
+        let iteration = 1;
+        let changed = true;
+
+        function getGroupIndex(state, currentPartitions) {
+            return currentPartitions.findIndex(group => group.includes(state));
+        }
+
+        // Processing Loops
+        while (changed) {
+            changed = false;
+            let newPartitions = [];
+            let stepExplanation = `<div class="step-card"><h3>Refinement Step P<sub>${iteration}</sub></h3>`;
+            let levelNodeHtml = `<div class="tree-level">`;
+
+            for (let i = 0; i < partitions.length; i++) {
+                let group = partitions[i];
+                stepExplanation += `<p><strong>Evaluating Block Group G${i+1} = { ${group.join(', ')} }:</strong></p>`;
+
+                if (group.length <= 1) {
+                    stepExplanation += `<p style="color: #666; margin-left:15px;">→ Stable singleton element block. Skipping trace evaluation.</p>`;
+                    newPartitions.push(group);
+                    levelNodeHtml += `<div class="tree-node">{ ${group.join(', ')} }</div>`;
+                    continue;
+                }
+
+                let subGroups = {};
+                let signatureTrace = `<div class="signature-list">`;
+
+                for (let state of group) {
+                    let destinations = [];
+                    let signatureArr = [];
+                    
+                    alphabet.forEach(symbol => {
+                        let targetState = transitionMatrix[state][symbol];
+                        let targetGroupIdx = getGroupIndex(targetState, partitions);
+                        destinations.push(`${symbol} → ${targetState} (G${targetGroupIdx+1})`);
+                        signatureArr.push(targetGroupIdx);
+                    });
+
+                    let signatureKey = signatureArr.join(',');
+                    signatureTrace += `State <b>${state}</b> → Block Targets: [${destinations.join(', ')}] Assuming Signature ID: (${signatureKey})<br>`;
+
+                    if (!subGroups[signatureKey]) {
+                        subGroups[signatureKey] = [];
+                    }
+                    subGroups[signatureKey].push(state);
+                }
+                signatureTrace += `</div>`;
+                stepExplanation += signatureTrace;
+
+                let splitGroups = Object.values(subGroups);
+                if (splitGroups.length > 1) {
+                    changed = true;
+                    stepExplanation += `<p style="color: #d9534f; font-weight:bold; margin-left:15px;">⚡ Divergence found! Splitting into ${splitGroups.length} unique subgroups:</p>`;
+                } else {
+                    stepExplanation += `<p style="color: #5cb85c; font-weight:bold; margin-left:15px;">✔ Complete match validation. Sub-group elements are stable together.</p>`;
+                }
+
+                splitGroups.forEach((sg) => {
+                    levelNodeHtml += `<div class="tree-node" style="border-style: ${splitGroups.length > 1 ? 'dashed':'solid'}">{ ${sg.join(', ')} }</div>`;
+                });
+
+                newPartitions.push(...splitGroups);
+            }
+
+            levelNodeHtml += `</div>`;
+            partitions = newPartitions;
+            
+            stepExplanation += `<p style="margin-top:15px;"><strong>Local Level Visualization Tree:</strong></p><div class="tree-container">${levelNodeHtml}</div>`;
+            stepExplanation += `</div>`;
+            
+            stepsOutput.innerHTML += stepExplanation;
+            
+            if (!changed) {
+                stepsOutput.innerHTML += `<div class="step-card" style="border-left-color: #5cb85c; background: #e6f9ed;">
+                    <h3>Stable Matrix State Achieved!</h3>
+                    <p>No further behavioral discrepancies were found. Minimization complete.</p>
+                </div>`;
+                break;
+            }
+            iteration++;
+        }
+
+        // Render Outputs
+        document.getElementById('stepsSection').style.display = "block";
+        const finalPartitionOutput = document.getElementById('finalPartitionOutput');
+        finalPartitionOutput.innerHTML = partitions.map(g => `<div class="state-block">{ ${g.join(', ')} }</div>`).join('');
+
+        const minTable = document.getElementById('minimizedTable');
+        minTable.innerHTML = `<tr><th>Equivalent Block Class</th>${alphabet.map(sym => `<th>Input ${sym}</th>`).join('')}</tr>`;
+
+        partitions.forEach(group => {
+            let coreRep = group[0];
+            let rowHtml = `<tr><td><strong>{ ${group.join(', ')} }</strong></td>`;
+            alphabet.forEach(symbol => {
+                let targetState = transitionMatrix[coreRep][symbol];
+                let targetGroupIdx = getGroupIndex(targetState, partitions);
+                rowHtml += `<td>{ ${partitions[targetGroupIdx].join(', ')} }</td>`;
+            });
+            rowHtml += `</tr>`;
+            minTable.innerHTML += rowHtml;
+        });
+
+        document.getElementById('resultSection').style.display = "block";
+        document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
